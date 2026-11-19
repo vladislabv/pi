@@ -246,10 +246,10 @@ export const stream: StreamFunction<"bedrock-converse-stream", BedrockOptions> =
 				config.requestHandler = proxyRequestHandler;
 				// SDK's default credential chain (SSO, assume-role, credential_process) ignores proxy env vars
 				if (!config.credentials && !useBearerToken) {
-	          			config.credentials = defaultProvider({
-	              			profile: config.profile,
-	              			clientConfig: { requestHandler: proxyRequestHandler },
-	          			});
+				  config.credentials = defaultProvider({
+				    profile: config.profile,
+				    clientConfig: { requestHandler: proxyRequestHandler },
+				  });
       			}
 			} else if (getProviderEnvValue("AWS_BEDROCK_FORCE_HTTP1", options.env) === "1") {
 				// Some custom endpoints require HTTP/1.1 instead of HTTP/2
