@@ -245,15 +245,15 @@ export const stream: StreamFunction<"bedrock-converse-stream", BedrockOptions> =
 				});
 				config.requestHandler = proxyRequestHandler;
 				// The SDK's default credential chain (SSO, assume-role, credential_process) makes its
-                // own HTTP calls with a handler that ignores proxy env vars, so it hangs on networks
-                // where the identity endpoints are only reachable through the proxy. Give it the same
-                // proxy-aware handler.
+				// own HTTP calls with a handler that ignores proxy env vars, so it hangs on networks
+				// where the identity endpoints are only reachable through the proxy. Give it the same
+				// proxy-aware handler.
 				if (!config.credentials && !useBearerToken) {
-				  config.credentials = defaultProvider({
-				    profile: config.profile,
-				    clientConfig: { requestHandler: proxyRequestHandler },
-				  });
-                }
+					config.credentials = defaultProvider({
+						profile: config.profile,
+						clientConfig: { requestHandler: proxyRequestHandler },
+					});
+				}
 			} else if (getProviderEnvValue("AWS_BEDROCK_FORCE_HTTP1", options.env) === "1") {
 				// Some custom endpoints require HTTP/1.1 instead of HTTP/2
 				config.requestHandler = new NodeHttpHandler();
