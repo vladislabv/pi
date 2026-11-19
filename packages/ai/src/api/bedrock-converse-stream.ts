@@ -239,17 +239,17 @@ export const stream: StreamFunction<"bedrock-converse-stream", BedrockOptions> =
 				// Bedrock runtime uses NodeHttp2Handler by default since v3.798.0, which is based
 				// on `http2` module and has no support for http agent.
 				// Use NodeHttpHandler to support HTTP(S) proxy agents.
-				config.proxyRequestHandler = new NodeHttpHandler({
+				const proxyRequestHandler = new NodeHttpHandler({
 					httpAgent: new HttpProxyAgent(proxyUrl),
 					httpsAgent: new HttpsProxyAgent(proxyUrl) as unknown as HttpsAgent,
 				});
 				config.requestHandler = proxyRequestHandler;
 				// SDK's default credential chain (SSO, assume-role, credential_process) ignores proxy env vars
 				if (!config.credentials && !useBearerToken) {
-          			config.credentials = defaultProvider({
-              			profile: config.profile,
-              			clientConfig: { requestHandler: proxyRequestHandler },
-          			});
+	          			config.credentials = defaultProvider({
+	              			profile: config.profile,
+	              			clientConfig: { requestHandler: proxyRequestHandler },
+	          			});
       			}
 			} else if (getProviderEnvValue("AWS_BEDROCK_FORCE_HTTP1", options.env) === "1") {
 				// Some custom endpoints require HTTP/1.1 instead of HTTP/2
